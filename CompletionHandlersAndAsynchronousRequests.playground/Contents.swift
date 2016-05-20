@@ -34,6 +34,42 @@ class ViewController : UIViewController {
             print("")
             print("Now, add your parsing code here...")
             
+            
+            
+            guard let tradingData : [String:AnyObject] = json as? [String: AnyObject]
+                else {
+                    print ("Could not find Trading Data")
+            return
+            }
+            guard let data : [AnyObject] = tradingData["data"] as? [AnyObject] else {
+                return
+            }
+            
+            guard let lastUpdate: String = tradingData ["lastUpdateTime"] as? String else{
+                print ("Could not find Last updated time")
+                return
+            }
+            
+            for i in data {
+                guard let dataIn = i as? [String : AnyObject] else {
+                    
+                    return
+                    
+                }
+                print(dataIn)
+            
+
+                guard let open  = dataIn as? [String : AnyObject] else {
+                return
+            }
+            print(open)
+            
+            }
+            
+            
+            
+                
+            
             // Now we can update the UI
             // (must be done asynchronously)
             dispatch_async(dispatch_get_main_queue()) {
@@ -49,7 +85,7 @@ class ViewController : UIViewController {
     
     // Set up and begin an asynchronous request for JSON data
     func getMyJSON() {
-
+        
         // Define a completion handler
         // The completion handler is what gets called when this **asynchronous** network request is completed.
         // This is where we'd process the JSON retrieved
@@ -69,8 +105,8 @@ class ViewController : UIViewController {
                 
                 // If the request was successful, parse the given data
                 if r.statusCode == 200 {
-        
-                    // Show debug information (if a request was completed successfully)            
+                    
+                    // Show debug information (if a request was completed successfully)
                     print("")
                     print("====== data from the request follows ======")
                     print(data)
@@ -80,7 +116,7 @@ class ViewController : UIViewController {
                     print("")
                     print("====== errors from the request follows ======")
                     print(error)
-            
+                    
                     if let d = data {
                         
                         // Parse the retrieved data
@@ -95,7 +131,7 @@ class ViewController : UIViewController {
         }
         
         // Define a URL to retrieve a JSON file from
-        let address : String = "http://www.learnswiftonline.com/Samples/subway.json"
+        let address : String = "https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxGetQuoteJSON.jsp?symbol=INFY"
         
         // Try to make a URL request object
         if let url = NSURL(string: address) {
@@ -131,10 +167,10 @@ class ViewController : UIViewController {
         // Sub-classes of UIViewController must invoke the superclass method viewDidLoad in their
         // own version of viewDidLoad()
         super.viewDidLoad()
-
+        
         // Make the view's background be gray
         view.backgroundColor = UIColor.lightGrayColor()
-
+        
         /*
          * Further define label that will show JSON data
          */
@@ -151,7 +187,7 @@ class ViewController : UIViewController {
         
         // Add the label to the superview
         view.addSubview(jsonResult)
-
+        
         /*
          * Add a button
          */
@@ -168,7 +204,7 @@ class ViewController : UIViewController {
         
         // Add the button into the super view
         view.addSubview(getData)
-
+        
         /*
          * Layout all the interface elements
          */
