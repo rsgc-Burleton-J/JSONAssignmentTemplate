@@ -23,7 +23,7 @@ class ViewController : UIViewController {
             // Source JSON is here:
             // http://www.learnswiftonline.com/Samples/subway.json
             //
-            let json = try NSJSONSerialization.JSONObjectWithData(theData, options: NSJSONReadingOptions.AllowFragments) as! AnyObject
+            let json = try NSJSONSerialization.JSONObjectWithData(theData, options: NSJSONReadingOptions.AllowFragments)
             
             // Print retrieved JSON
             print("")
@@ -42,30 +42,34 @@ class ViewController : UIViewController {
             return
             }
             guard let data : [AnyObject] = tradingData["data"] as? [AnyObject] else {
+                "Could not retrieve data"
                 return
             }
+            print (data)
             
             guard let lastUpdate: String = tradingData ["lastUpdateTime"] as? String else{
                 print ("Could not find Last updated time")
                 return
             }
+            print(lastUpdate)
             
             for i in data {
+                
                 guard let dataIn = i as? [String : AnyObject] else {
-                    
+                   print("Could Not find data string")
                     return
                     
                 }
                 print(dataIn)
             
 
-                guard let open  = dataIn as? [String : AnyObject] else {
+                guard let open  = dataIn ["open"] as? [String : AnyObject] else {
+                    print("Could not find open value in data string")
                 return
             }
             print(open)
             
             }
-            
             
             
                 
@@ -169,14 +173,14 @@ class ViewController : UIViewController {
         super.viewDidLoad()
         
         // Make the view's background be gray
-        view.backgroundColor = UIColor.lightGrayColor()
+        view.backgroundColor = UIColor.blackColor()
         
         /*
          * Further define label that will show JSON data
          */
         
         // Set the label text and appearance
-        jsonResult.text = "..."
+        jsonResult.text = "Raw Stock Data"
         jsonResult.font = UIFont.systemFontOfSize(12)
         jsonResult.numberOfLines = 0   // makes number of lines dynamic
         // e.g.: multiple lines will show up
@@ -197,7 +201,7 @@ class ViewController : UIViewController {
         getData.addTarget(self, action: #selector(ViewController.getMyJSON), forControlEvents: UIControlEvents.TouchUpInside)
         
         // Set the button's title
-        getData.setTitle("Get my JSON!", forState: UIControlState.Normal)
+        getData.setTitle("Stock Tips Applicaton", forState: UIControlState.Normal)
         
         // Required to auto layout this button
         getData.translatesAutoresizingMaskIntoConstraints = false
