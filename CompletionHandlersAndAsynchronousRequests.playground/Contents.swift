@@ -63,11 +63,35 @@ class ViewController : UIViewController {
                 print(dataIn)
             
 
-                guard let open  = dataIn ["open"] as? [String : AnyObject] else {
+                guard let open = dataIn ["open"] as? [String : AnyObject] else {
                     print("Could not find open value in data string")
                 return
             }
             print(open)
+                
+                guard let low52 = dataIn ["low52"] as? [String : AnyObject] else {
+                    print("Could not find lowest 52 week value in data string")
+                    return
+                }
+                print(low52)
+                
+                guard let high52 = dataIn ["high52"] as? [String : AnyObject] else {
+                    print("Could not find highest 52 week value in data string")
+                    return
+                }
+                print(high52)
+                
+                guard let dayLow = dataIn ["dayLow"] as? [String : AnyObject] else {
+                    print("Could not find lowest day value in data string")
+                    return
+                }
+                print(dayLow)
+                
+                guard let dayHigh = dataIn ["dayHigh"] as? [String : AnyObject] else {
+                    print("Could not find lowest day value in data string")
+                    return
+                }
+                print(dayHigh)
             
             }
             
