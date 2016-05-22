@@ -5,6 +5,24 @@ import XCPlayground
 
 class ViewController : UIViewController {
     
+    
+    var openV = [AnyObject]()
+    
+    
+    var closeV = [AnyObject]()
+    
+    
+    var low52V = [AnyObject]()
+    
+    
+    var high52V = [AnyObject]()
+    
+    
+    var dayLowV = [AnyObject]()
+    
+    
+    var dayHighV = [AnyObject]()
+    
     // Views that need to be accessible to all methods
     let jsonResult = UILabel()
     
@@ -68,6 +86,12 @@ class ViewController : UIViewController {
                 return
             }
             print(open)
+                guard let close = dataIn ["close"] as? [String : AnyObject] else {
+                    print("Could not find close value in data string")
+                    return
+                }
+                print(close)
+
                 
                 guard let low52 = dataIn ["low52"] as? [String : AnyObject] else {
                     print("Could not find lowest 52 week value in data string")
@@ -92,6 +116,14 @@ class ViewController : UIViewController {
                     return
                 }
                 print(dayHigh)
+                
+                
+                openV.append(open)
+                closeV.append(close)
+                low52V.append(low52)
+                high52V.append(high52)
+                dayLowV.append(dayLow)
+                dayHighV.append(dayHigh)
             
             }
             
@@ -107,7 +139,7 @@ class ViewController : UIViewController {
         } catch let error as NSError {
             print ("Failed to load: \(error.localizedDescription)")
         }
-        
+        print (dayHighV)
         
     }
     
@@ -131,20 +163,8 @@ class ViewController : UIViewController {
             // Cast the NSURLResponse object into an NSHTTPURLResponse objecct
             if let r = response as? NSHTTPURLResponse {
                 
-                // If the request was successful, parse the given data
                 if r.statusCode == 200 {
-                    
-                    // Show debug information (if a request was completed successfully)
-                    print("")
-                    print("====== data from the request follows ======")
-                    print(data)
-                    print("")
-                    print("====== response codes from the request follows ======")
-                    print(response)
-                    print("")
-                    print("====== errors from the request follows ======")
-                    print(error)
-                    
+
                     if let d = data {
                         
                         // Parse the retrieved data
