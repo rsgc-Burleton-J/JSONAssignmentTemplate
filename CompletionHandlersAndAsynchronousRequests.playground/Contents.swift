@@ -76,42 +76,41 @@ class ViewController : UIViewController {
                 guard let dataIn = i as? [String : AnyObject] else {
                    print("Could Not find data string")
                     return
-                    
                 }
                 print(dataIn)
-            
 
-                guard let open = dataIn ["open"] as? [String : AnyObject] else {
+                guard let open = dataIn ["open"] else {
                     print("Could not find open value in data string")
                 return
-            }
-            print(open)
-                guard let close = dataIn ["close"] as? [String : AnyObject] else {
+                }
+                print(open)
+                
+                guard let close = dataIn ["close"] else {
                     print("Could not find close value in data string")
                     return
                 }
                 print(close)
 
                 
-                guard let low52 = dataIn ["low52"] as? [String : AnyObject] else {
+                guard let low52 = dataIn ["low52"] else {
                     print("Could not find lowest 52 week value in data string")
                     return
                 }
                 print(low52)
                 
-                guard let high52 = dataIn ["high52"] as? [String : AnyObject] else {
+                guard let high52 = dataIn ["high52"] else {
                     print("Could not find highest 52 week value in data string")
                     return
                 }
                 print(high52)
                 
-                guard let dayLow = dataIn ["dayLow"] as? [String : AnyObject] else {
+                guard let dayLow = dataIn ["dayLow"] else {
                     print("Could not find lowest day value in data string")
                     return
                 }
                 print(dayLow)
                 
-                guard let dayHigh = dataIn ["dayHigh"] as? [String : AnyObject] else {
+                guard let dayHigh = dataIn ["dayHigh"] else {
                     print("Could not find lowest day value in data string")
                     return
                 }
