@@ -39,7 +39,7 @@ class ViewController : UIViewController {
             
             // Do the initial de-serialization
             // Source JSON is here:
-            // http://www.learnswiftonline.com/Samples/subway.json
+            // "https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/ajaxGetQuoteJSON.jsp?symbol=INFY"
             //
             let json = try NSJSONSerialization.JSONObjectWithData(theData, options: NSJSONReadingOptions.AllowFragments)
             
@@ -79,13 +79,13 @@ class ViewController : UIViewController {
                 }
                 print(dataIn)
 
-                guard let open = dataIn ["open"] else {
+                guard let open = dataIn ["open"] as? String else{
                     print("Could not find open value in data string")
                 return
                 }
                 print(open)
                 
-                guard let close = dataIn ["close"] else {
+                guard let close = dataIn ["closePrice"] else {
                     print("Could not find close value in data string")
                     return
                 }
