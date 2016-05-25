@@ -1,27 +1,31 @@
 //: Playground - noun: a place where people can play
 
 import UIKit
-import XCPlayground
+
 
 class ViewController : UIViewController {
     
+    var shouldInvV : String = ""
     
-    var openV = [AnyObject]()
+    var openV : String = ""
+    var openVI : Double = 0
     
+    var closeV : String = ""
+    var closeVI : Double = 0
     
-    var closeV = [AnyObject]()
+    var low52V : String = ""
+    var low52VI : Double = 0
     
+    var high52V : String = ""
+    var high52VI : Double = 0
+
+    var dayLowV : String = ""
+    var dayLowVI : Double = 0
     
-    var low52V = [AnyObject]()
+    var dayHighV : String = ""
+    var dayHighVI : Double = 0
     
-    
-    var high52V = [AnyObject]()
-    
-    
-    var dayLowV = [AnyObject]()
-    
-    
-    var dayHighV = [AnyObject]()
+    var uDV : String = ""
     
     // Views that need to be accessible to all methods
     let jsonResult = UILabel()
@@ -57,7 +61,7 @@ class ViewController : UIViewController {
             guard let tradingData : [String:AnyObject] = json as? [String: AnyObject]
                 else {
                     print ("Could not find Trading Data")
-            return
+                    return
             }
             guard let data : [AnyObject] = tradingData["data"] as? [AnyObject] else {
                 "Could not retrieve data"
@@ -70,75 +74,120 @@ class ViewController : UIViewController {
                 return
             }
             print(lastUpdate)
+            uDV = lastUpdate
             
             for i in data {
                 
                 guard let dataIn = i as? [String : AnyObject] else {
-                   print("Could Not find data string")
+                    print("Could Not find data string")
                     return
                 }
                 print(dataIn)
-
+                
                 guard let open = dataIn ["open"] as? String else{
                     print("Could not find open value in data string")
-                return
+                    return
                 }
                 print(open)
                 
-                guard let close = dataIn ["closePrice"] else {
+                guard let close = dataIn ["closePrice"] as? String else {
                     print("Could not find close value in data string")
                     return
                 }
                 print(close)
-
                 
-                guard let low52 = dataIn ["low52"] else {
+                
+                guard let low52 = dataIn ["low52"] as? String else {
                     print("Could not find lowest 52 week value in data string")
                     return
                 }
                 print(low52)
                 
-                guard let high52 = dataIn ["high52"] else {
+                guard let high52 = dataIn ["high52"] as? String else {
                     print("Could not find highest 52 week value in data string")
                     return
                 }
                 print(high52)
                 
-                guard let dayLow = dataIn ["dayLow"] else {
+                guard let dayLow = dataIn ["dayLow"] as? String else {
                     print("Could not find lowest day value in data string")
                     return
                 }
                 print(dayLow)
                 
-                guard let dayHigh = dataIn ["dayHigh"] else {
+                guard let dayHigh = dataIn ["dayHigh"] as? String else {
                     print("Could not find lowest day value in data string")
                     return
                 }
                 print(dayHigh)
                 
                 
-                openV.append(open)
-                closeV.append(close)
-                low52V.append(low52)
-                high52V.append(high52)
-                dayLowV.append(dayLow)
-                dayHighV.append(dayHigh)
-            
+                openV = open
+                closeV = close
+                low52V = low52
+                high52V = high52
+                dayLowV = dayLow
+                dayHighV = dayHigh
+                
+                if let numberO : Double = Double(openV) {
+                    print ("\(numberO)")
+                    openVI = numberO
+                }
+                if let numberC : Double = Double(closeV) {
+                    print ("\(numberC)")
+                    closeVI = numberC
+                }
+                if let numberL : Double = Double(low52V) {
+                    print ("\(numberL)")
+                    low52VI = numberL
+                }
+                if let numberH : Double = Double(high52V) {
+                    print ("\(numberH)")
+                    high52VI = numberH
+                }
+                if let numberDL : Double = Double(dayLowVI) {
+                    print ("\(numberDL)")
+                    dayLowVI = numberDL
+                }
+                if let numberDH : Double = Double(dayHighVI) {
+                    print ("\(numberDH)")
+                    dayHighVI = numberDH
+                }
+                
+                if (low52VI > 935.0) {
+                    shouldInvV = "Yes, (if you want a new car)"
+                } else {
+                    shouldInvV = "No (unless you enjoy losing money)"
+                }
             }
             
+         
+                print (openV)
+                print (closeV)
+                print (low52V)
+                print (high52V)
+                print (dayLowV)
+                print (dayHighV)
             
-                
+        
             
             // Now we can update the UI
             // (must be done asynchronously)
             dispatch_async(dispatch_get_main_queue()) {
-                self.jsonResult.text = "parsed JSON should go here"
+                self.jsonResult.text = "Info Found"
+                self.openValue.text = self.openV
+                self.closeValue.text = self.closeV
+                self.LastUpdate.text = self.uDV
+                self.weekLow.text = self.low52V
+                self.weekHigh.text = self.high52V
+                self.dayLow.text = self.dayLowV
+                self.dayHigh.text = self.dayHighV
+                self.shouldInv.text = self.shouldInvV
             }
             
         } catch let error as NSError {
             print ("Failed to load: \(error.localizedDescription)")
         }
-        print (dayHighV)
         
     }
     
@@ -163,7 +212,7 @@ class ViewController : UIViewController {
             if let r = response as? NSHTTPURLResponse {
                 
                 if r.statusCode == 200 {
-
+                    
                     if let d = data {
                         
                         // Parse the retrieved data
@@ -208,19 +257,35 @@ class ViewController : UIViewController {
         
     }
     
+    
+    
+    @IBOutlet weak var openValue: UILabel!
+    
+    @IBOutlet weak var closeValue: UILabel!
+    
+    @IBOutlet weak var LastUpdate: UILabel!
+    
+    @IBOutlet weak var weekLow: UILabel!
+    
+    @IBOutlet weak var weekHigh: UILabel!
+    
+    @IBOutlet weak var dayLow: UILabel!
+    
+    @IBOutlet weak var dayHigh: UILabel!
+    
+    @IBOutlet weak var shouldInv: UILabel!
+    
     // This is the method that will run as soon as the view controller is created
     override func viewDidLoad() {
         
         // Sub-classes of UIViewController must invoke the superclass method viewDidLoad in their
         // own version of viewDidLoad()
-        super.viewDidLoad()
-        
-        // Make the view's background be gray
-        view.backgroundColor = UIColor.blackColor()
+        //super.viewDidLoad()
         
         /*
          * Further define label that will show JSON data
          */
+        
         
         // Set the label text and appearance
         jsonResult.text = "Raw Stock Data"
@@ -238,6 +303,7 @@ class ViewController : UIViewController {
         /*
          * Add a button
          */
+        
         let getData = UIButton(frame: CGRect(x: 0, y: 0, width: 150, height: 30))
         
         // Make the button, when touched, run the calculate method
@@ -255,9 +321,11 @@ class ViewController : UIViewController {
         /*
          * Layout all the interface elements
          */
+        //Connect Text fields to values
+        
         
         // This is required to lay out the interface elements
-        view.translatesAutoresizingMaskIntoConstraints = false
+        //view.translatesAutoresizingMaskIntoConstraints = false
         
         // Create an empty list of constraints
         var allConstraints = [NSLayoutConstraint]()
@@ -284,7 +352,3 @@ class ViewController : UIViewController {
     
 }
 
-// Embed the view controller in the live view for the current playground page
-XCPlaygroundPage.currentPage.liveView = ViewController()
-// This playground page needs to continue executing until stopped, since network reqeusts are asynchronous
-XCPlaygroundPage.currentPage.needsIndefiniteExecution = true
