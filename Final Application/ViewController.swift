@@ -4,7 +4,7 @@ import UIKit
 
 
 class ViewController : UIViewController {
-    
+    //Create Variables to Contain Parsed Values for display
     var shouldInvV : String = ""
     
     var openV : String = ""
@@ -57,7 +57,7 @@ class ViewController : UIViewController {
             print("Now, add your parsing code here...")
             
             
-            
+            //create guard let statements to parse data from incoming information
             guard let tradingData : [String:AnyObject] = json as? [String: AnyObject]
                 else {
                     print ("Could not find Trading Data")
@@ -76,6 +76,7 @@ class ViewController : UIViewController {
             print(lastUpdate)
             uDV = lastUpdate
             
+            //create a for i in data structure to allow for parsing in an array
             for i in data {
                 
                 guard let dataIn = i as? [String : AnyObject] else {
@@ -121,7 +122,7 @@ class ViewController : UIViewController {
                 }
                 print(dayHigh)
                 
-                
+                //Declare varaibles for universal use
                 openV = open
                 closeV = close
                 low52V = low52
@@ -129,6 +130,7 @@ class ViewController : UIViewController {
                 dayLowV = dayLow
                 dayHighV = dayHigh
                 
+                //turning string values into double values
                 if let numberO : Double = Double(openV) {
                     print ("\(numberO)")
                     openVI = numberO
@@ -161,7 +163,7 @@ class ViewController : UIViewController {
                 }
             }
             
-         
+            //print the parsed strings
                 print (openV)
                 print (closeV)
                 print (low52V)
@@ -173,6 +175,7 @@ class ViewController : UIViewController {
             
             // Now we can update the UI
             // (must be done asynchronously)
+            //update IB outlet text information with parsed data
             dispatch_async(dispatch_get_main_queue()) {
                 self.jsonResult.text = "Info Found"
                 self.openValue.text = self.openV
@@ -257,7 +260,7 @@ class ViewController : UIViewController {
         
     }
     
-    
+    //declare IBoutlets for text use in app (as labels)
     
     @IBOutlet weak var openValue: UILabel!
     
